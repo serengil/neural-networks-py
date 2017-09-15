@@ -1,5 +1,5 @@
 # neural-networks-py
-This project includes core neural networks implementation with python (3.5)
+This project includes core neural networks implementation with python (3.5). Also, no deep learning framework is consumed such as TensorFlow or Theano.
 
 Run NN.py in the root directory.
 
