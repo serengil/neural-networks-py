@@ -54,21 +54,13 @@ class NetworkLearning:
                                 break
                 
                 #iterate on weights end
-
-                #print(" = ",net_input)
-
+                
                 net_output = Activation.activate(activation_function, net_input)
                 nodes[j].set_net_input_value(net_input)
                 nodes[j].set_net_value(net_output)
-
-                #print("sigmoid(",net_input,") = ",net_output) # demek ki netinput lari ayni hesaplamiyoruz
-        
+                
         #------------------------------
-        """
-        if dump == True:
-            print("actual:"+str(instance[len(instance)-1])+" - predict: "+str(nodes[len(nodes)-1].get_net_value()))
-        """
-
+        
         return nodes
 
     def applyBackpropagation(dump, instances, nodes, weights, activation_function, learning_rate, momentum):
@@ -88,10 +80,7 @@ class NetworkLearning:
             small_delta = actual_value - predicted_value
 
             nodes[len(nodes) - 1].set_small_delta(small_delta)
-
-
-
-
+            
             for j in range(len(nodes)-2, num_of_features, -1): #output delta is already calculated on the step above, that's why len(nodes)-2
 
                 #look for connections including from nodes[j]
