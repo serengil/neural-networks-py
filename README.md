@@ -14,12 +14,17 @@ In other words, 4th item of instances, [1, 1, 0], means x1 = 1, x2 = 1 and resul
 Moreover, you should tune the following variables for different datasets.
 
 dump = True
+
 epoch = 10000
-activation_function = 'sigmoid' #now, it works for sigmoid only.
+
+activation_function = 'sigmoid'
+
 learning_rate = 0.1
 
 #tuning parameters
+
 applyAdaptiveLearning = False
+
 momentum = 0
 
 PS: java implementation of this project is already shared in the following link
