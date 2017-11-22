@@ -2,6 +2,7 @@ from entity.Node import Node
 from service.NetworkStructure import NetworkStructure
 from service.NetworkConnection import NetworkConnection
 from service.NetworkLearning import NetworkLearning
+from service.FeatureNormalization import FeatureNormalization
 import matplotlib.pyplot as plt
 
 #--------------------------------
@@ -16,6 +17,11 @@ learning_rate = 0.1
 #tuning parameters
 applyAdaptiveLearning = False
 momentum = 0
+#--------------------------------
+
+instances = FeatureNormalization.normalize(instances, activation_function)
+print("normalized dataset: ", instances)
+
 #--------------------------------
 
 num_of_features = len(instances[0]) - 1 #an instance consisting of features and output. that's why minus 1
