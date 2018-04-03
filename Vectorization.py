@@ -28,8 +28,6 @@ w = np.array(
 	]
 )
 
-c
-
 num_of_layers = w.shape[0] + 1
 
 #------------------------
