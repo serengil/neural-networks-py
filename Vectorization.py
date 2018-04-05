@@ -3,6 +3,16 @@ import numpy as np
 import time
 
 #------------------------
+#system configuration
+
+num_of_classes = 2 #1 for regression, n for classification
+epoch = 10000
+hidden_layers = [5]
+
+print("system configuration: epoch=",epoch,", hidden layers=",hidden_layers)
+
+#------------------------
+#trainset
 
 x = np.array( #xor dataset
 	[ #bias, #x1, #x2
@@ -13,24 +23,29 @@ x = np.array( #xor dataset
 	]
 )
 
-y = np.array(
-	[
-		[0], #instance 1
-		[1], #instance 2
-		[1], #instance 3
-		[0]  #instace 4
-	]
-)
-
+if num_of_classes > 1: #classification
+	y = np.array(
+		[
+			[[1],[0]],
+			[[0],[1]],
+			[[0],[1]],
+			[[1],[0]],
+		]
+	)
+else: #regression
+	y = np.array(
+		[
+			[0], #instance 1
+			[1], #instance 2
+			[1], #instance 3
+			[0]  #instace 4
+		]
+	)	
 #------------------------
-epoch = 10000
-hidden_layers = [3]
 
 num_of_features = x.shape[1]-1 #minus 1 refers to bias
 num_of_instances = x.shape[0]
 num_of_layers = len(hidden_layers) + 2 #plus input layer and output layer
-
-print("system configuration: epoch=",epoch,", hidden layers=",hidden_layers)
 
 #------------------------
 #weight initialization
@@ -46,14 +61,17 @@ if len(hidden_layers) > 1:
 	for i in range(len(hidden_layers) - 1):
 		w[i+1] = np.random.uniform(low,high,(hidden_layers[i] + 1, hidden_layers[i+1]))
 
-w[num_of_layers-2] = np.random.uniform(low,high,(hidden_layers[len(hidden_layers) - 1] + 1, 1)) #+1 refers to bias unit in input layer, and 1 is number of nodes in output layer
+w[num_of_layers-2] = np.random.uniform(low,high,(hidden_layers[len(hidden_layers) - 1] + 1, num_of_classes)) #+1 refers to bias unit in input layer
 
 #print("initial weights: ", w)
 
 #------------------------
 
 def sigmoid(netinput):
-	netoutput = np.ones((netinput.shape[0] + 1, 1)) #ones because init values are same as bias unit. size of output is 1 more than input because of bias
+	netoutput = np.ones((netinput.shape[0] + 1, 1)) 
+	#ones because init values are same as bias unit
+	#size of output is 1 plus input because of bias
+	
 	for i in range(netinput.shape[0]):
 		netoutput[i+1] = 1/(1 + math.exp(-netinput[i][0]))
 	return netoutput
@@ -82,7 +100,9 @@ for epoch in range(epoch):
 		
 		predict = nodes[num_of_layers - 1]
 		actual = y[i]
+		#print("predict: ",predict,", actual: ",actual)
 		error = actual - predict
+		#print("error: ",error)
 		
 		sigmas = [i for i in range(num_of_layers)] #error should not be reflected to input layer
 		
@@ -92,7 +112,14 @@ for epoch in range(epoch):
 			if sigmas[j + 1].shape[0] == 1:
 				sigmas[j] = w[j] * sigmas[j + 1]
 			else:
-				sigmas[j] = np.matmul(w[j], sigmas[j + 1][1:])
+				"""print("? ",j)
+				print(w[j])
+				print("x")
+				print(sigmas[j + 1])"""
+				if j + 1 == num_of_layers - 2:
+					sigmas[j] = np.matmul(w[j], sigmas[j + 1][1:]) #single output
+				else:
+					sigmas[j] = np.matmul(w[j], sigmas[j + 1])
 			
 		#----------------------------------
 		
@@ -118,4 +145,4 @@ for i in range(num_of_instances):
 	nodes = applyFeedForward(x[i], w)
 	predict = nodes[num_of_layers - 1]
 	actual = y[i]
-	print(np.transpose(x[i][1:])," -> actual: ", actual,", predict: ", predict)
+	print(np.transpose(x[i][1:])," -> actual: ", np.transpose(actual)[0],", predict: ", np.transpose(predict)[0])
