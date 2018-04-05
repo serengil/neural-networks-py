@@ -7,7 +7,7 @@ import time
 
 num_of_classes = 2 #1 for regression, n for classification
 epoch = 10000
-hidden_layers = [5]
+hidden_layers = [5, 5]
 
 print("system configuration: epoch=",epoch,", hidden layers=",hidden_layers)
 
@@ -112,14 +112,10 @@ for epoch in range(epoch):
 			if sigmas[j + 1].shape[0] == 1:
 				sigmas[j] = w[j] * sigmas[j + 1]
 			else:
-				"""print("? ",j)
-				print(w[j])
-				print("x")
-				print(sigmas[j + 1])"""
-				if j + 1 == num_of_layers - 2:
-					sigmas[j] = np.matmul(w[j], sigmas[j + 1][1:]) #single output
-				else:
+				if j == num_of_layers - 2: #output layer has no bias unit
 					sigmas[j] = np.matmul(w[j], sigmas[j + 1])
+				else: #otherwise remove bias unit from the following node because it is not connected from previous layer
+					sigmas[j] = np.matmul(w[j], sigmas[j + 1][1:])
 			
 		#----------------------------------
 		
