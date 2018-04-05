@@ -22,26 +22,33 @@ y = np.array(
 	]
 )
 
-#random initial weights
-w = np.array(
-	[
-		[ #weights for input layer to 1st hidden layer
-			[0.441461337833972, -0.9385618776407734, 0.6994894097020672],
-			[0.10683441180281483, -0.9344176790118245, 0.4717265671227009],
-			[0.1624858934305029, -0.9314202266783156, -0.3284522527544532]
-		],
-		[ #weights for hidden layer to output layer
-			[0.26537295294388175], 
-			[-0.17541706129386947], 
-			[0.7877122949375102], 
-			[-0.8067422017211016]
-		]
-	]
-)
+#------------------------
+epoch = 10000
+hidden_layers = [5,5]
 
-num_of_layers = w.shape[0] + 1
-num_of_features = x.shape[1] - 1 #minus bias unit
+num_of_features = x.shape[1]-1 #minus 1 refers to bias
 num_of_instances = x.shape[0]
+num_of_layers = len(hidden_layers) + 2 #plus input layer and output layer
+
+print("system configuration: epoch=",epoch,", hidden layers=",hidden_layers)
+
+#------------------------
+#weight initialization
+
+w = [0 for i in range(num_of_layers-1)]
+
+low = 0
+high = 1
+
+w[0] = np.random.uniform(low,high,(num_of_features + 1, hidden_layers[0])) #+1 refers to bias unit in input layer
+
+if len(hidden_layers) > 1:
+	for i in range(len(hidden_layers) - 1):
+		w[i+1] = np.random.uniform(low,high,(hidden_layers[i] + 1, hidden_layers[i+1]))
+
+w[num_of_layers-2] = np.random.uniform(low,high,(hidden_layers[len(hidden_layers) - 1] + 1, 1)) #+1 refers to bias unit in input layer, and 1 is number of nodes in output layer
+
+#print("initial weights: ", w)
 
 #------------------------
 
@@ -67,7 +74,7 @@ def applyFeedForward(x, w):
 
 start_time = time.time()
 
-for epoch in range(10000):
+for epoch in range(epoch):
 	for i in range(num_of_instances):
 		instance = x[i]
 		nodes = applyFeedForward(instance, w)
@@ -85,7 +92,10 @@ for epoch in range(10000):
 			if sigmas[j + 1].shape[0] == 1:
 				sigmas[j] = w[j] * sigmas[j + 1]
 			else:
-				sigmas[j] = np.matmul(np.transpose(w[j]), sigmas[j + 1][1:])
+				#print(np.transpose(w[j]))
+				#print(sigmas[j + 1][1:])
+				#sigmas[j] = np.matmul(np.transpose(w[j]), sigmas[j + 1][1:])
+				sigmas[j] = np.matmul(w[j], sigmas[j + 1][1:])
 			
 		#----------------------------------
 		
@@ -99,6 +109,8 @@ for epoch in range(10000):
 #training end
 #---------------------
 print("--- execution for vectorization lasts %s seconds ---" % (time.time() - start_time))
+
+#print("final weights: ",w)
 
 for i in range(num_of_instances):
 	nodes = applyFeedForward(x[i], w)
