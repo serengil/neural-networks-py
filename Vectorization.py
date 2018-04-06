@@ -45,14 +45,17 @@ else: #regression
 """
 #suppose that traindata stored in this file. each line refers to an instance.
 #final item of an instance is label (y) whereas the other ones are features  (x)
+#now, loading trainset from external resource is available for regression problems
 from numpy import genfromtxt
-dataset = genfromtxt('../sine.csv', delimiter=',')
+dataset = genfromtxt('../xor.csv', delimiter=',')
 features = dataset[:,0:dataset.shape[1]-1]
 labels = dataset[:,dataset.shape[1]-1:]
 
+bias = np.array([1]);
+
 x = [0 for i in range(features.shape[0])]
 for i in range(features.shape[0]):
-	x[i] = np.array([features[i]]).T
+	x[i] = np.array([np.append([1], features[i])]).T
 
 y = [0 for i in range(labels.shape[0])]
 for i in range(labels.shape[0]):
