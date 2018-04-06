@@ -8,6 +8,12 @@ import matplotlib.pyplot as plt
 #--------------------------------
 #historical data
 instances = [[0, 0, 0], [0, 1, 1], [1, 0, 1], [1, 1, 0]] #x1, x2, result
+
+"""
+#alternatively, you can load the trainset from external file
+#each row refers to an instance. final item refers to label whereas the other items refers to features
+from numpy import genfromtxt
+instances = genfromtxt('../sine2.csv', delimiter=',').tolist()"""
 #--------------------------------
 dump = True
 epoch = 10000
