@@ -59,7 +59,12 @@ for i in range(features.shape[0]):
 
 y = [0 for i in range(labels.shape[0])]
 for i in range(labels.shape[0]):
-	y[i] = np.array([labels[i]]).T
+	if num_of_classes == 1: #regression
+		y[i] = np.array([labels[i]]).T
+	else:
+		encoded = [0 for i in range(num_of_classes)]
+		encoded[int(labels[i])] = 1
+		y[i] = np.array([encoded]).T
 
 x = np.array(x)
 y = np.array(y)
