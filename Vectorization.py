@@ -40,7 +40,29 @@ else: #regression
 			[1], #instance 3
 			[0]  #instace 4
 		]
-	)	
+	)
+
+"""
+#suppose that traindata stored in this file. each line refers to an instance.
+#final item of an instance is label (y) whereas the other ones are features  (x)
+from numpy import genfromtxt
+dataset = genfromtxt('../sine.csv', delimiter=',')
+features = dataset[:,0:6]
+labels = dataset[:,6:]
+
+x = [0 for i in range(features.shape[0])]
+for i in range(features.shape[0]):
+	x[i] = np.array([features[i]]).T
+
+y = [0 for i in range(labels.shape[0])]
+for i in range(labels.shape[0]):
+	y[i] = np.array([labels[i]]).T
+
+x = np.array(x)
+y = np.array(y)
+"""
+#print("features: ",x)
+#print("target: ",y)
 #------------------------
 
 num_of_features = x.shape[1]-1 #minus 1 refers to bias
