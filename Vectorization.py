@@ -47,8 +47,8 @@ else: #regression
 #final item of an instance is label (y) whereas the other ones are features  (x)
 from numpy import genfromtxt
 dataset = genfromtxt('../sine.csv', delimiter=',')
-features = dataset[:,0:6]
-labels = dataset[:,6:]
+features = dataset[:,0:dataset.shape[1]-1]
+labels = dataset[:,dataset.shape[1]-1:]
 
 x = [0 for i in range(features.shape[0])]
 for i in range(features.shape[0]):
