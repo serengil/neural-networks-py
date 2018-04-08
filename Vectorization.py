@@ -78,10 +78,11 @@ num_of_instances = x.shape[0]
 num_of_layers = len(hidden_layers) + 2 #plus input layer and output layer
 
 #------------------------
-def initialize_weights(layer_index, rows, columns):
+def initialize_weights(rows, columns):
 	weights = np.random.randn(rows+1, columns) #standard normal distribution, +1 refers to bias unit
-	weights = weights * np.sqrt(2/math.pow(num_of_features, layer_index))
-	#weights = weights * np.sqrt(1/math.pow(num_of_features, layer_index)) #xavier initializtion
+	weights = weights * np.sqrt(2/rows)
+	#weights = weights * np.sqrt(1/rows) #xavier initializtion
+	#weights = weights * np.sqrt(6/(rows + columns)) #normalized initializtion
 	return weights
 
 #weight initialization
