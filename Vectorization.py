@@ -78,26 +78,22 @@ num_of_instances = x.shape[0]
 num_of_layers = len(hidden_layers) + 2 #plus input layer and output layer
 
 #------------------------
-def initialize_weights(rows, columns):
-	#weights should be initialized randomly between [-epsilon, +epsilon]
-	#ref: https://web.stanford.edu/class/ee373b/nninitialization.pdf
-	low = 0; high = 1
-	
-	init_epsilon = np.array(math.sqrt(6) / (math.sqrt(num_of_features) + 1))
-	rand = np.random.uniform(low,high,(rows + 1, columns)) #+1 refers to bias unit
-	return rand * np.array(2)* init_epsilon - init_epsilon
+def initialize_weights(layer_index, rows, columns):
+	weights = np.random.randn(rows+1, columns) #standard normal distribution, +1 refers to bias unit
+	weights = weights * np.sqrt(2/math.pow(num_of_features, layer_index))
+	#weights = weights * np.sqrt(2/math.pow(num_of_features, layer_index)) #xavier initializtion
+	return weights
 
 #weight initialization
-
 w = [0 for i in range(num_of_layers-1)]
 
-w[0] = initialize_weights(num_of_features, hidden_layers[0])
+w[0] = initialize_weights(0, num_of_features, hidden_layers[0])
 
 if len(hidden_layers) > 1:
 	for i in range(len(hidden_layers) - 1):
-		w[i+1] = initialize_weights(hidden_layers[i], hidden_layers[i+1])
+		w[i+1] = initialize_weights(i+1, hidden_layers[i], hidden_layers[i+1])
 
-w[num_of_layers-2] = initialize_weights(hidden_layers[len(hidden_layers) - 1], num_of_classes)
+w[num_of_layers-2] = initialize_weights(num_of_layers-2, hidden_layers[len(hidden_layers) - 1], num_of_classes)
 
 print("initial weights: ", w)
 #------------------------
