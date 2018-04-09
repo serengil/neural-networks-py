@@ -79,10 +79,12 @@ num_of_layers = len(hidden_layers) + 2 #plus input layer and output layer
 
 #------------------------
 def initialize_weights(rows, columns):
+	#ref: http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
+	#lecture: https://www.coursera.org/learn/deep-neural-network/lecture/RwqYe/weight-initialization-for-deep-networks
 	weights = np.random.randn(rows+1, columns) #standard normal distribution, +1 refers to bias unit
-	weights = weights * np.sqrt(1/rows) #xavier initialization http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf . prof. andrew says that this is good for tanh
-	#weights = weights * np.sqrt(2/rows) #good for relu https://www.coursera.org/learn/deep-neural-network/lecture/RwqYe/weight-initialization-for-deep-networks
-	#weights = weights * np.sqrt(6/(rows + columns)) #normalized initialization http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf
+	weights = weights * np.sqrt(1/rows) #xavier initialization. prof. andrew says that this is good for tanh
+	#weights = weights * np.sqrt(2/rows) #prof. andrew says that this is good for relu
+	#weights = weights * np.sqrt(6/(rows + columns)) #normalized initialization
 	return weights
 
 #weight initialization
