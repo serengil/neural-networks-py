@@ -89,13 +89,13 @@ def initialize_weights(rows, columns):
 #weight initialization
 w = [0 for i in range(num_of_layers-1)]
 
-w[0] = initialize_weights(0, num_of_features, hidden_layers[0])
+w[0] = initialize_weights(num_of_features, hidden_layers[0])
 
 if len(hidden_layers) > 1:
 	for i in range(len(hidden_layers) - 1):
-		w[i+1] = initialize_weights(i+1, hidden_layers[i], hidden_layers[i+1])
+		w[i+1] = initialize_weights(hidden_layers[i], hidden_layers[i+1])
 
-w[num_of_layers-2] = initialize_weights(num_of_layers-2, hidden_layers[len(hidden_layers) - 1], num_of_classes)
+w[num_of_layers-2] = initialize_weights(hidden_layers[len(hidden_layers) - 1], num_of_classes)
 
 print("initial weights: ", w)
 #------------------------
