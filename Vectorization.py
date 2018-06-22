@@ -2,14 +2,19 @@ import math
 import numpy as np
 import time
 
+import matplotlib.pyplot as plt
+
 #------------------------
 #system configuration
 
 num_of_classes = 2 #1 for regression, n for classification
-epoch = 10000
+epoch = 1000
+learningRate = np.array([0.1])
 hidden_layers = [5, 5]
 
 print("system configuration: epoch=",epoch,", hidden layers=",hidden_layers)
+
+optimization_algorithm = 'adam' #gradient-descent or adam
 
 #------------------------
 #trainset
@@ -50,13 +55,10 @@ from numpy import genfromtxt
 dataset = genfromtxt('../xor.csv', delimiter=',')
 features = dataset[:,0:dataset.shape[1]-1]
 labels = dataset[:,dataset.shape[1]-1:]
-
 bias = np.array([1]);
-
 x = [0 for i in range(features.shape[0])]
 for i in range(features.shape[0]):
 	x[i] = np.array([np.append([1], features[i])]).T
-
 y = [0 for i in range(labels.shape[0])]
 for i in range(labels.shape[0]):
 	if num_of_classes == 1: #regression
@@ -65,7 +67,6 @@ for i in range(labels.shape[0]):
 		encoded = [0 for i in range(num_of_classes)]
 		encoded[int(labels[i])] = 1
 		y[i] = np.array([encoded]).T
-
 x = np.array(x)
 y = np.array(y)
 """
@@ -97,7 +98,7 @@ if len(hidden_layers) > 1:
 
 w[num_of_layers-2] = initialize_weights(hidden_layers[len(hidden_layers) - 1], num_of_classes)
 
-print("initial weights: ", w)
+#print("initial weights: ", w)
 #------------------------
 
 def sigmoid(netinput):
@@ -125,6 +126,27 @@ def applyFeedForward(x, w):
 #------------------------
 
 start_time = time.time()
+
+def calculateCost():
+	cost = 0
+	for i in range(num_of_instances):
+		nodes = applyFeedForward(x[i], w)
+		predict = nodes[num_of_layers - 1]
+		actual = y[i]
+		
+		cost = cost + sum(pow((actual - predict), 2)/2)
+	
+	cost = cost / num_of_instances
+	return cost
+
+#adam optimization parameters initialization
+vdw = [0.0 for i in range(num_of_layers)]
+sdw = [0.0 for i in range(num_of_layers)]
+epsilon = np.array([pow(10, -8)])
+beta1 = 0.9; beta2 = 0.999
+
+J = [] #cost history
+J.append(calculateCost()) #initial cost
 
 for epoch in range(epoch):
 	for i in range(num_of_instances):
@@ -161,10 +183,28 @@ for epoch in range(epoch):
 				delta = nodes[j] * np.transpose(sigmas[j+1]) #no bias exist in output layer
 			else:
 				delta = nodes[j] * np.transpose(sigmas[j+1][1:])
-
-			w[j] = w[j] + np.array([0.1]) * delta
+			
+			#-----------------------------------------------
+			#optimization algorithm
+			if optimization_algorithm == 'gradient-descent':
+				w[j] = w[j] + learningRate * delta
+			elif optimization_algorithm == 'adam':
+				vdw[j] = beta1 * vdw[j] + (1 - beta1) * delta
+				sdw[j] = beta2 * sdw[j] + (1 - beta2) * pow(delta, 2)
+				
+				vdw_corrected = vdw[j] / (1-pow(beta1, epoch+1))
+				sdw_corrected = sdw[j] / (1-pow(beta2,epoch+1))
+				
+				w[j] = w[j] + learningRate * (vdw_corrected / (np.sqrt(sdw_corrected) + epsilon))
+			##optimization algorithm end	
+	J.append(calculateCost())
 	
 #training end
+
+x_axis = [i for i in range(len(J))]
+plt.plot(x_axis, J, c='blue', label=optimization_algorithm)
+plt.show()
+
 #---------------------
 print("--- execution for vectorization lasts %s seconds ---" % (time.time() - start_time))
 
