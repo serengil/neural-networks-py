@@ -203,6 +203,8 @@ for epoch in range(epoch):
 
 x_axis = [i for i in range(len(J))]
 plt.plot(x_axis, J, c='blue', label=optimization_algorithm)
+plt.xlabel('epoch')
+plt.ylabel('error')
 plt.show()
 
 #---------------------
