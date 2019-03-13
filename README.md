@@ -37,4 +37,4 @@ https://github.com/serengil/neural-networks
 
 # License
 
-Chefboost is licensed under the MIT License - see [LICENSE](https://github.com/serengil/neural-networks-py/blob/master/LICENSE) for more details.
+This repository is licensed under the MIT License - see [LICENSE](https://github.com/serengil/neural-networks-py/blob/master/LICENSE) for more details.
