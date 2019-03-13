@@ -34,3 +34,7 @@ momentum = 0
 
 PS: java implementation of this project is already shared in the following link
 https://github.com/serengil/neural-networks
+
+# License
+
+Chefboost is licensed under the MIT License - see [LICENSE](https://github.com/serengil/neural-networks-py/blob/master/LICENSE) for more details.
