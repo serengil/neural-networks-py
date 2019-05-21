@@ -24,7 +24,7 @@ instances = [
 
 In other words, 4th item of instances, [1, 1, 0], means x1 = 1, x2 = 1 and result = 0
 
-Moreover, you should tune the following variables for different datasets.
+Moreover, you should tune the following hyper-parameters for different datasets.
 
 ```
 dump = True #print messages in the console
@@ -35,9 +35,6 @@ activation_function = 'sigmoid'
 
 learning_rate = 0.1
 
-
-#tuning parameters
-
 applyAdaptiveLearning = False
 
 momentum = 0
@@ -45,4 +42,4 @@ momentum = 0
 
 # License
 
-This repository is licensed under the MIT License - see [LICENSE](https://github.com/serengil/neural-networks-py/blob/master/LICENSE) for more details.
+This repository is licensed under the MIT License - see [`LICENSE`](https://github.com/serengil/neural-networks-py/blob/master/LICENSE) for more details.
