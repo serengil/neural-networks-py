@@ -12,7 +12,7 @@ You can run either NN.py or Vectorization.py. First one runs based on for loops 
 
 Load historical data in the instances variable in the main file. For instance, the following variable states Exclusive OR (XOR) dataset. Last item of an instance states results whereas other items state input features.
 
-```
+```python
 #x1, x2, result
 instances = [
       [0, 0, 0]
@@ -26,7 +26,7 @@ In other words, 4th item of instances, [1, 1, 0], means x1 = 1, x2 = 1 and resul
 
 Moreover, you should tune the following hyper-parameters for different datasets.
 
-```
+```python
 dump = True #print messages in the console
 
 epoch = 10000 #learning time
