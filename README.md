@@ -40,6 +40,10 @@ applyAdaptiveLearning = False
 momentum = 0
 ```
 
+# Support
+
+There are many ways to support a project - starring the GitHub repos is one.
+
 # License
 
 This repository is licensed under the MIT License - see [`LICENSE`](https://github.com/serengil/neural-networks-py/blob/master/LICENSE) for more details.
