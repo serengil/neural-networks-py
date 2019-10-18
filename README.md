@@ -2,7 +2,7 @@
 
 This repository covers code implementations of Neural Networks Fundamentals in Python online course
 
-Course Link: https://www.udemy.com/neural-networks-fundamentals-in-python/?couponCode=NNF-101-BLOG-201711 **(90% OFF over the regular price)**
+Course Link: https://www.udemy.com/course/neural-networks-fundamentals-in-python/?referralCode=AC5B6B5834F9ABB4C3FD **(90% OFF over the regular price)**
 
 This project includes core neural networks implementation with python (3.5). Also, no deep learning framework is consumed such as TensorFlow or Theano.
 
